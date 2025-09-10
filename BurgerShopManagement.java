@@ -1,13 +1,11 @@
 import java.util.Scanner;
 
 public class BurgerShopManagement {
-    // Constants
     final static double BURGERPRICE = 500.0;
     public static final int PREPARING = 0;
     public static final int DELIVERED = 1;
     public static final int CANCEL = 2;
 
-    // Arrays (max 100 orders)
     static String[] orderIDs = new String[100];
     static String[] customerIDs = new String[100];
     static String[] customerNames = new String[100];
@@ -19,9 +17,8 @@ public class BurgerShopManagement {
 
     public static void main(String[] args) {
         while (true) {
-            // Main Menu
             System.out.println("\n-------------------------------");
-            System.out.println("     iHungry Burger Shop CLI    ");
+            System.out.println("     iHungry Burger    ");
             System.out.println("-------------------------------");
             System.out.println("[1] Place Order        [2] Search Best Customer");
             System.out.println("[3] Search Order       [4] Search Customer");
@@ -30,7 +27,7 @@ public class BurgerShopManagement {
             System.out.print("\nEnter an option to continue > ");
 
             int choice = input.nextInt();
-            input.nextLine(); // consume newline
+            input.nextLine();
 
             switch (choice) {
                 case 1: placeOrder(); break;
@@ -45,18 +42,15 @@ public class BurgerShopManagement {
         }
     }
 
-    // Generate Order ID (B001, B002, ...)
     public static String generateOrderID() {
         return String.format("B%03d", orderCount + 1);
     }
 
-    // Place Order
     public static void placeOrder() {
         while (true) {
             String orderID = generateOrderID();
             System.out.println("\nOrder ID: " + orderID);
 
-            // Customer ID (Phone Number Validation)
             String customerID;
             while (true) {
                 System.out.print("Enter Customer ID (phone number): ");
@@ -65,7 +59,6 @@ public class BurgerShopManagement {
                 System.out.println("❌ Invalid phone number! Must start with 0 and have 10 digits.");
             }
 
-            // Customer Name
             String customerName = null;
             boolean found = false;
             for (int i = 0; i < orderCount; i++) {
@@ -82,7 +75,6 @@ public class BurgerShopManagement {
                 customerName = input.nextLine();
             }
 
-            // Quantity
             int qty;
             while (true) {
                 System.out.print("Enter Burger Quantity: ");
@@ -92,11 +84,9 @@ public class BurgerShopManagement {
                 System.out.println("❌ Quantity must be greater than 0.");
             }
 
-            // Bill
             double total = qty * BURGERPRICE;
             System.out.println("💰 Total Bill: Rs. " + total);
 
-            // Confirm Order
             System.out.print("Confirm Order? (Y/N): ");
             String confirm = input.nextLine().toUpperCase();
 
@@ -112,14 +102,12 @@ public class BurgerShopManagement {
                 System.out.println("❌ Order Cancelled!");
             }
 
-            // Place another order?
             System.out.print("Do you want to place another order? (Y/N): ");
             String again = input.nextLine().toUpperCase();
             if (!again.equals("Y")) break;
         }
     }
 
-    // Search Best Customer
     public static void searchBestCustomer() {
         if (orderCount == 0) {
             System.out.println("No orders available.");
@@ -150,7 +138,6 @@ public class BurgerShopManagement {
             }
         }
 
-        // Sort descending
         for (int i = 0; i < uniqueCount - 1; i++) {
             for (int j = i + 1; j < uniqueCount; j++) {
                 if (totals[j] > totals[i]) {
@@ -166,7 +153,6 @@ public class BurgerShopManagement {
         }
     }
 
-    // Search Order
     public static void searchOrder() {
         if (orderCount == 0) { System.out.println("No orders available."); return; }
 
@@ -188,7 +174,6 @@ public class BurgerShopManagement {
         if (!found) System.out.println("❌ Invalid Order ID!");
     }
 
-    // Search Customer
     public static void searchCustomer() {
         if (orderCount == 0) { System.out.println("No orders available."); return; }
 
@@ -206,7 +191,6 @@ public class BurgerShopManagement {
         if (!found) System.out.println("❌ Customer not found!");
     }
 
-    // View Orders
     public static void viewOrders() {
         if (orderCount == 0) { System.out.println("No orders available."); return; }
 
@@ -227,7 +211,6 @@ public class BurgerShopManagement {
             else if (opt == 3) status = CANCEL;
             else { System.out.println("Invalid option!"); return; }
 
-            // Table
             System.out.println("\n----------------------------------------------------");
             System.out.printf("%-8s %-12s %-12s %-6s %-10s\n", "OrderID", "CustomerID", "Name", "Qty", "Value");
             System.out.println("----------------------------------------------------");
@@ -250,7 +233,6 @@ public class BurgerShopManagement {
         }
     }
 
-    // Update Orders
     public static void updateOrders() {
         if (orderCount == 0) { System.out.println("No orders available."); return; }
 
@@ -295,12 +277,10 @@ public class BurgerShopManagement {
         }
     }
 
-    // Convert status int to text
     public static String statusText(int status) {
         return (status == PREPARING) ? "PREPARING" : (status == DELIVERED) ? "DELIVERED" : "CANCELLED";
     }
 
-    // Exit
     public static void exit() {
         System.out.println("\n👋 You left the program...");
         System.exit(0);
